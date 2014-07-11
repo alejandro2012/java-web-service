@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="builder" basedir="." default="jar">
+<project name="web-service-bottom" basedir="." default="jar">
 
     <property name="src.dir" value="src"/>
     <property name="classes.dir" value="classes"/>
-
+    <property name="jax.libs" location="/opt/java/jdk1.7.0_25/lib/endorsed" />
+    
+    
     <target name="clean" description="Delete all generated files">
         <delete dir="${classes.dir}" failonerror="false"/>
         <delete file="${ant.project.name}.jar"/>
@@ -11,11 +13,22 @@
 
     <target name="compile" description="Compiles the Task">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false"/>
     </target>
 
     <target name="jar" description="JARs the Task" depends="compile">
         <jar destfile="${ant.project.name}.jar" basedir="${classes.dir}"/>
     </target>
-
+       
+    <taskdef name="wsgen" classname="com.sun.tools.ws.ant.WsGen">
+    </taskdef>  
+                                
+     <target name="wsgen" depends="compile">  
+    	<wsgen resourcedestdir="" 
+    	       sei="com.alex.endPointImplementation.ServiceImplementation01"
+    	       classpath= "${classes.dir}" 
+    	       sourcedestdir="src">
+    	</wsgen>
+    </target>  
+ 
 </project>

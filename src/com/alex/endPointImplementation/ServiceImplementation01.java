@@ -4,10 +4,8 @@ import javax.jws.WebService;
 import com.alex.endPointInterface.*;
 
 @WebService(endpointInterface="com.alex.endPointInterface.ServiceInterface01",
-name = "addService_name", 
 serviceName = "addService_serviceName", 
-portName = "addService_portName"
-		)
+portName = "addService_portName")
 public class ServiceImplementation01 implements ServiceInterface01{
 
 	@Override
