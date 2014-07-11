@@ -3,32 +3,35 @@
 
     <property name="src.dir" value="src"/>
     <property name="classes.dir" value="classes"/>
-    <property name="jax.libs" location="/opt/java/jdk1.7.0_25/lib/endorsed" />
-    
+    <property name="wsdl.dir" value="wsdl_schema"/>
     
     <target name="clean" description="Delete all generated files">
         <delete dir="${classes.dir}" failonerror="false"/>
+        <delete dir="${wsdl.dir}"    failonerror="false"/>
         <delete file="${ant.project.name}.jar"/>
     </target>
 
     <target name="compile" description="Compiles the Task">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="true"/>
     </target>
 
-    <target name="jar" description="JARs the Task" depends="compile">
-        <jar destfile="${ant.project.name}.jar" basedir="${classes.dir}"/>
-    </target>
-       
     <taskdef name="wsgen" classname="com.sun.tools.ws.ant.WsGen">
     </taskdef>  
                                 
-     <target name="wsgen" depends="compile">  
-    	<wsgen resourcedestdir="" 
+     <target name="wsgen">  
+        <mkdir dir="${wsdl.dir}"/>
+    	<wsgen resourcedestdir="${wsdl.dir}" 
+    	       verbose="true"
+    	       keep="true"
+    	       genwsdl="true"
     	       sei="com.alex.endPointImplementation.ServiceImplementation01"
-    	       classpath= "${classes.dir}" 
-    	       sourcedestdir="src">
+    	       classpath= "${classes.dir}" >
     	</wsgen>
     </target>  
+    
+     <target name="jar" description="JARs the Task">
+        <jar destfile="${ant.project.name}.jar" basedir="${classes.dir}"/>
+    </target>
  
 </project>
