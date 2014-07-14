@@ -3,11 +3,9 @@
 
     <property name="src.dir" value="src"/>
     <property name="classes.dir" value="classes"/>
-    <property name="wsdl.dir" value="wsdl_schema"/>
     
     <target name="clean" description="Delete all generated files">
         <delete dir="${classes.dir}" failonerror="false"/>
-        <delete dir="${wsdl.dir}"    failonerror="false"/>
         <delete file="${ant.project.name}.jar"/>
     </target>
 
@@ -15,20 +13,6 @@
         <mkdir dir="${classes.dir}"/>
         <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="true"/>
     </target>
-
-    <taskdef name="wsgen" classname="com.sun.tools.ws.ant.WsGen">
-    </taskdef>  
-                                
-     <target name="wsgen">  
-        <mkdir dir="${wsdl.dir}"/>
-    	<wsgen resourcedestdir="${wsdl.dir}" 
-    	       verbose="true"
-    	       keep="true"
-    	       genwsdl="true"
-    	       sei="com.alex.endPointImplementation.ServiceImplementation01"
-    	       classpath= "${classes.dir}" >
-    	</wsgen>
-    </target>  
     
      <target name="jar" description="JARs the Task">
         <jar destfile="${ant.project.name}.jar" basedir="${classes.dir}"/>
